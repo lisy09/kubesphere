@@ -94,6 +94,7 @@ require (
 	k8s.io/klog v1.0.0
 	k8s.io/kube-openapi v0.0.0-20191107075043-30be4d16710a
 	k8s.io/kubectl v0.17.3
+	k8s.io/utils v0.0.0-20191114184206-e782cd3c129f
 	openpitrix.io/openpitrix v0.4.9-0.20200611125425-ae07f141e797
 	sigs.k8s.io/application v1.0.0
 	sigs.k8s.io/controller-runtime v0.5.0

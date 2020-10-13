@@ -41,8 +41,21 @@ BUILD_GOARCH=${GOARCH:-amd64}
 GOBINARY=${GOBINARY:-go}
 LDFLAGS=$(kube::version::ldflags)
 
-# forgoing -i (incremental build) because it will be deprecated by tool chain.
-time GOOS=${BUILD_GOOS} CGO_ENABLED=0 GOARCH=${BUILD_GOARCH} ${GOBINARY} build \
-        -ldflags="${LDFLAGS}" \
-        -o ${OUT} \
-        ${BUILDPATH}
+BUILD_PLATFORMS=${DOCKER_PLATFORMS:-linux/amd64,linux/arm/v7,linux/arm64}
+for BUILD_PLATFORM in $(echo ${BUILD_PLATFORMS}| tr "," "\n")
+do
+    echo "build image for $BUILD_PLATFORM"
+    BUILD_VARS=(${BUILD_PLATFORM//// })
+    BUILD_GOOS=${BUILD_VARS[0]}
+    BUILD_GOARCH=${BUILD_VARS[1]}
+    if [[ -v BUILD_VARS[2] ]]; then
+        BUILD_VARIANT=${BUILD_VARS[2]}
+    else
+        BUILD_VARIANT=""
+    fi
+    # forgoing -i (incremental build) because it will be deprecated by tool chain.
+    time GOOS=${BUILD_GOOS} CGO_ENABLED=0 GOARCH=${BUILD_GOARCH} ${GOBINARY} build \
+            -ldflags="${LDFLAGS}" \
+            -o ${OUTPUT_DIR}/${1:?"output path"}-${BUILD_GOOS}-${BUILD_GOARCH}${BUILD_VARIANT} \
+            ${BUILDPATH}
+done
