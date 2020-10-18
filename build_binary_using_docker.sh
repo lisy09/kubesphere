@@ -14,9 +14,9 @@ docker buildx build \
 --platform $DOCKER_PLATFORMS \
 --push .
 
-echo 'Build and push ks-controller-manager'
-docker buildx build \
---push \
---file build/ks-controller-manager/Dockerfile \
---tag $IMAGE_REPO/ks-controller-manager:$IMAGE_VERSION \
---platform $DOCKER_PLATFORMS .
+# echo 'Build and push ks-controller-manager'
+# docker buildx build \
+# --push \
+# --file build/ks-controller-manager/Dockerfile \
+# --tag $IMAGE_REPO/ks-controller-manager:$IMAGE_VERSION \
+# --platform $DOCKER_PLATFORMS .

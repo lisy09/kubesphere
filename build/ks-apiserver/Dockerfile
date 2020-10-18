@@ -1,7 +1,11 @@
 # Copyright 2020 The KubeSphere Authors. All rights reserved.
 # Use of this source code is governed by an Apache license
 # that can be found in the LICENSE file.
-FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:3.12
+FROM alpine:3.12
+
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
 
 RUN apk add --no-cache ca-certificates 
 
@@ -10,7 +14,7 @@ RUN apk add --no-cache ca-certificates
 # following command first before building docker image
 #   make ks-apiserver
 #
-COPY  /bin/cmd/ks-apiserver-${TARGETOS:-linux}-${TARGETARCH:-amd64}${TARGETVARIANT} /usr/local/bin/ks-apiserver
+COPY  /bin/cmd/ks-apiserver-${TARGETOS}-${TARGETARCH}${TARGETVARIANT} /usr/local/bin/ks-apiserver
 
 EXPOSE 9090
 CMD ["sh"]
